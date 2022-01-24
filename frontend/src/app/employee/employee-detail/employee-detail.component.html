@@ -1,0 +1,6 @@
+<div class="container" *ngIf="employee$ | async as employee">
+     <h3>
+        {{employee.name}}
+     </h3>
+     <a [routerLink]="['/emplyoee']"   type="btn btn-primary">Back</a>
+</div>

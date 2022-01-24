@@ -1,0 +1,87 @@
+<div class="container py-3">
+    <div class="row">
+        <div class="col-md-6">
+         
+               <h2>Employee Management</h2>
+           
+        </div>
+            
+        <div class="col ml-auto text-right">
+            <button type="button" class="btn btn-outline-success"
+            (click)="onAddEmployee()">
+                <i class="fa fa-plus"></i> Add Employee
+            </button>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-4" *ngFor="let item of employee$ | async">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <a [routerLink]="['/emplyoee-detail',item._id]" >
+                        <h5 class="card-title">{{item.name}}</h5>
+                    </a>
+                    <h6 class="card-subtitle mb-2 text-muted">{{item.position}}</h6>
+                    <p class="card-text border-top pt-2 mt-3">
+                        Office: <strong>{{item.office}}</strong>
+                        <br>
+                        Salary: <strong>{{item.salary}}</strong>
+                    </p>
+                    <button type="button" class="btn btn-outline-primary mr-2"
+                        (click)="onEditEmployee(item)">Edit</button>
+                    <button type="button" class="btn btn-outline-danger"
+                        (click)="onDeleteEmployee(item._id)">Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade show" [class.show]="showModal">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Add Employee</h5>
+            <button (click)="onCloseModal()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        
+        <form [formGroup]="empForm" (ngSubmit)="onEmpSubmit()"> 
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Enter Name</label>
+                    <input type="text" class="form-control" formControlName="name">
+                    <small *ngIf="!empForm.get('name').valid && empForm.get('name').touched" class="form-text text-danger">Please Enter Name.</small>
+                </div>
+                
+                <div class="form-group">
+                    <label>Enter position</label>
+                    <input type="text" class="form-control" formControlName="position">
+                    <small *ngIf="!empForm.get('position').valid && empForm.get('position').touched" class="form-text text-danger">Please Enter position.</small>
+                </div>
+                
+                <!-- <div class="form-group">
+                    <label>Enter Office</label>
+                    <input type="text" class="form-control" formControlName="office">
+                    <small *ngIf="!empForm.get('office').valid && empForm.get('office').touched" class="form-text text-danger">Please Enter office.</small>
+                </div>
+                
+                <div class="form-group">
+                    <label>Enter Salary</label>
+                    <input type="text" class="form-control" formControlName="salary">
+                    <small *ngIf="!empForm.get('salary').valid && empForm.get('salary').touched" class="form-text text-danger">Please Enter salary.</small>
+                </div> -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" (click)="onCloseModal()" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
