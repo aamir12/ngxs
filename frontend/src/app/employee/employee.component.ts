@@ -4,7 +4,7 @@ import { Select, Selector, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Employee } from '../shared/employee.model';
 import { EmployeeService } from '../shared/employee.service';
-import { AddEmployee, DeleteEmployee, GetEmployee } from '../store/actions/employee.action';
+import { AddEmployee, DeleteEmployee, GetEmployee, UpdateEmployee } from '../store/actions/employee.action';
 import { EmployeeState } from '../store/state/employee.state';
 
 @Component({
@@ -53,16 +53,17 @@ export class EmployeeComponent implements OnInit {
       console.log(this.empForm.value);
       
       if(this.editMode){
-        this._empService.putEmployee(this.empForm.value).subscribe(
-          (res) => {
-            console.log('Updated successfully');
-            this.getEmployees();
-            this.editMode = false;
-          },
-          (err) => {
-            console.log(err);
-          },
-        );
+        this.store.dispatch(new UpdateEmployee(this.empForm.value))
+        // this._empService.putEmployee(this.empForm.value).subscribe(
+        //   (res) => {
+        //     console.log('Updated successfully');
+        //     this.getEmployees();
+        //     this.editMode = false;
+        //   },
+        //   (err) => {
+        //     console.log(err);
+        //   },
+        // );
       }else{
         this.store.dispatch(new AddEmployee(this.empForm.value))
         // this._empService.postEmployee(this.empForm.value).subscribe(

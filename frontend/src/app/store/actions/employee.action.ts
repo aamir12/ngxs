@@ -11,7 +11,7 @@ export class AddEmployee{
 
 export class UpdateEmployee{
     static readonly type = '[Employee] Update';
-    constructor(public id:string,public payload:Employee){}
+    constructor(public payload:Employee){}
 }
 
 export class DeleteEmployee{

@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { Employee } from "src/app/shared/employee.model";
 import { EmployeeService } from "src/app/shared/employee.service";
-import { AddEmployee, DeleteEmployee, GetEmployee, SetSelectedEmployee } from "../actions/employee.action";
+import { AddEmployee, DeleteEmployee, GetEmployee, SetSelectedEmployee, UpdateEmployee } from "../actions/employee.action";
 import {tap} from 'rxjs/operators';
 
 class EmployeeStateModel{
@@ -79,13 +79,12 @@ export class EmployeeState{
 
     @Action(AddEmployee)
     addEmployee({getState,patchState}:StateContext<EmployeeStateModel>,{payload}:AddEmployee){
-       console.log(payload);
-       this.empService.postEmployee(payload).subscribe((res:any) =>{
+       return this.empService.postEmployee(payload).pipe(tap((res:any) =>{
            const state = getState();
             patchState({
                 employees:[...state.employees,res]
             })
-       })
+       }))
     }
 
     @Action(DeleteEmployee)
@@ -97,6 +96,19 @@ export class EmployeeState{
                 employees : empList
             })
         }))
+    }
+
+    @Action(UpdateEmployee)
+    updateEmployee({getState,patchState}:StateContext<EmployeeStateModel>,{payload}:UpdateEmployee){
+        return this.empService.putEmployee(payload).pipe(tap((res:any) =>{
+            const state = getState();
+            const empList = state.employees;
+            const index = empList.findIndex(emp=> emp._id === payload._id);
+            empList[index] = payload;
+            patchState({
+                employees:empList
+            })
+       }));
     }
 }
 
