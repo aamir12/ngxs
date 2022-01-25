@@ -18,3 +18,8 @@ export class DeleteEmployee{
     static readonly type = '[Employee] Delete';
     constructor(public id:string){}
 }
+
+export class SetSelectedEmployee{
+    static readonly type = '[Employee] Set';
+    constructor(public id:string){}
+}

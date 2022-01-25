@@ -4,7 +4,7 @@ import { Select, Selector, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Employee } from '../shared/employee.model';
 import { EmployeeService } from '../shared/employee.service';
-import { GetEmployee } from '../store/actions/employee.action';
+import { AddEmployee, DeleteEmployee, GetEmployee } from '../store/actions/employee.action';
 import { EmployeeState } from '../store/state/employee.state';
 
 @Component({
@@ -64,15 +64,16 @@ export class EmployeeComponent implements OnInit {
           },
         );
       }else{
-        this._empService.postEmployee(this.empForm.value).subscribe(
-          (res) => {
-            console.log('Saved successfully');
-            this.getEmployees();
-          },
-          (err) => {
-            console.log(err);
-          },
-        );
+        this.store.dispatch(new AddEmployee(this.empForm.value))
+        // this._empService.postEmployee(this.empForm.value).subscribe(
+        //   (res) => {
+        //     console.log('Saved successfully');
+        //     this.getEmployees();
+        //   },
+        //   (err) => {
+        //     console.log(err);
+        //   },
+        // );
       }
        
       this.empForm.reset();
@@ -106,16 +107,17 @@ export class EmployeeComponent implements OnInit {
 
   onDeleteEmployee(id){
     if(confirm('Do you want to delete this employee?')){
+      this.store.dispatch(new DeleteEmployee(id));
       // console.log(id);
-      this._empService.deleteEmployee(id).subscribe(
-        (res) => {
-          console.log('Delete successfully');
-          this.getEmployees();
-        },
-        (err) => {
-          console.log(err);
-        },
-      );
+      // this._empService.deleteEmployee(id).subscribe(
+      //   (res) => {
+      //     console.log('Delete successfully');
+      //     this.getEmployees();
+      //   },
+      //   (err) => {
+      //     console.log(err);
+      //   },
+      // );
     }
   }
 
