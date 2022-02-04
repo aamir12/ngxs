@@ -1,0 +1,7 @@
+<ng-container *ngFor="let album of albumData;let i=index">
+<div class="box" id="target{{i+1}}">
+    <h2>Photo {{album.id}}</h2>
+    <h4>{{album.title}}</h4>
+    <img style="width:40%;height:40%;" src="{{album.url}}">
+</div>
+</ng-container>
